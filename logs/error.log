@@ -1,0 +1,18 @@
+20240920	22:37:08	7bbff98b-c7a7-4965-8640-e7aeec93ef6f	TypeError):res.status is not a function	GET	/Users	undefined
+20240920	22:37:26	6c8205a1-d07e-45c9-a92f-5f51d8c627a7	TypeError):res.status is not a function	GET	/users	undefined
+20240920	22:38:28	6baeb71d-3c55-41d5-a192-b6843cb88bd6	TypeError):res.status is not a function	GET	/users	undefined
+20240920	22:38:30	d9c251f0-6297-4949-a716-0c39d303923d	TypeError):res.status is not a function	GET	/users	undefined
+20240920	22:39:37	a1c23578-886b-4c4b-9b39-65e4dba3b644	TypeError):res.status is not a function	GET	/users	undefined
+20240921	20:57:24	8f696cbb-156f-4ecb-83e1-ee22451b9d75	TypeError):Cannot destructure property 'id' of 'req.body' as it is undefined.	PATCH	/users	undefined
+20240921	20:57:34	8075feb7-570a-4ad8-9034-6a2be6627324	TypeError):Cannot destructure property 'id' of 'req.body' as it is undefined.	PATCH	/users	undefined
+20240921	20:58:05	a5d8a8bf-d2b7-4186-81f7-c76b56a53018	TypeError):Cannot destructure property 'id' of 'req.body' as it is undefined.	PATCH	/users	undefined
+20240921	20:58:28	af6768b4-f68c-441d-a765-e5148d22a50f	TypeError):Cannot destructure property 'id' of 'req.body' as it is undefined.	PATCH	/users	undefined
+20240921	21:00:02	df166d49-f082-4403-9c06-3b9c2561aa40	TypeError):Cannot destructure property 'id' of 'req.body' as it is undefined.	PATCH	/users	undefined
+20240921	21:00:57	1f79788e-6150-4a44-914f-8899aefeb40b	TypeError):Cannot destructure property 'id' of 'req.body' as it is undefined.	PATCH	/users	undefined
+20240921	21:01:44	cd10df2d-df71-407a-99dc-5b8208d54e12	TypeError):Cannot destructure property 'id' of 'req.body' as it is undefined.	PATCH	/users	undefined
+20240921	21:02:07	3220b61a-4ebd-4ef3-a76f-f31b29dbb30a	TypeError):Cannot destructure property 'id' of 'req.body' as it is undefined.	PATCH	/users	undefined
+20240921	21:02:08	4d4d6320-415b-4b1b-b58d-2b026b8543b0	TypeError):Cannot destructure property 'id' of 'req.body' as it is undefined.	PATCH	/users	undefined
+20240921	21:07:15	a8f58045-1348-4622-b5fa-12212c500c51	ReferenceError):Notes is not defined	DELETE	/users	undefined
+20240921	22:50:33	a47f2af3-7a0b-4435-ae74-ca7da3713107	ValidationError):Note validation failed: user: Cast to ObjectId failed for value "Sriram" (type string) at path "user" because of "BSONError"	POST	/notes	undefined
+20240921	22:52:42	4af5ecb4-ddc8-474a-948f-e9d7382a2436	ValidationError):Note validation failed: user: Cast to ObjectId failed for value "Sriram" (type string) at path "user" because of "BSONError"	POST	/notes	undefined
+20240921	23:00:37	cea7af21-b5f1-4832-8778-5ff3f4232277	ReferenceError):json is not defined	DELETE	/notes	undefined
