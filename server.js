@@ -10,7 +10,10 @@ const corsOptions = require('./config/corsOptions');
 const connectDB = require('./config/dbConn');
 const mongoose = require('mongoose');
 const { logEvents } = require('./middleware/logger');
-const PORT = 3500;
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
 connectDB();
 
