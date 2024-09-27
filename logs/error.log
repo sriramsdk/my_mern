@@ -16,3 +16,37 @@
 20240921	22:50:33	a47f2af3-7a0b-4435-ae74-ca7da3713107	ValidationError):Note validation failed: user: Cast to ObjectId failed for value "Sriram" (type string) at path "user" because of "BSONError"	POST	/notes	undefined
 20240921	22:52:42	4af5ecb4-ddc8-474a-948f-e9d7382a2436	ValidationError):Note validation failed: user: Cast to ObjectId failed for value "Sriram" (type string) at path "user" because of "BSONError"	POST	/notes	undefined
 20240921	23:00:37	cea7af21-b5f1-4832-8778-5ff3f4232277	ReferenceError):json is not defined	DELETE	/notes	undefined
+20240927	21:26:23	ea768383-5c5f-470d-a614-8ed7c6a8ef75	Error):Not allowed by CORS	OPTIONS	/notes	https://sdk-mern.netlify.app
+20240927	21:26:23	40e08473-7b83-41b2-a07f-2c2996d2bd16	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
+20240927	21:36:32	ac2b5b87-d147-49b9-9a6a-ad4d6fa34a9b	Error):Not allowed by CORS	OPTIONS	/notes	https://sdk-mern.netlify.app
+20240927	21:36:32	60a66488-16b6-4f75-a1bb-2fd071697a47	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
+20240927	21:36:35	0bc88b67-4e99-493b-892b-fb74f99f9db2	Error):Not allowed by CORS	OPTIONS	/notes	https://sdk-mern.netlify.app
+20240927	21:36:35	0ae38372-1bd7-4008-8dac-a105abcbeb02	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
+20240927	21:37:56	28e1e8d8-428f-4ac7-b2ab-dfdf8462fcd8	Error):Not allowed by CORS	OPTIONS	/notes	https://sdk-mern.netlify.app
+20240927	21:37:56	f180340c-9aa1-4c1c-8ef8-eaae0ebbcc0d	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
+20240927	21:40:34	dcbf46f7-a271-4bbd-98c7-7ba7bfd98cf4	Error):Not allowed by CORS	OPTIONS	/notes	https://66f6d8b2a744c2944793636e--sdk-mern.netlify.app
+20240927	21:40:34	ad3b7e19-0b58-4b8e-b25f-de939a7ec17e	Error):Not allowed by CORS	GET	/notes	https://66f6d8b2a744c2944793636e--sdk-mern.netlify.app
+20240927	21:40:44	ecca1e84-3422-48f9-b26a-9dc530eaff05	Error):Not allowed by CORS	OPTIONS	/notes	https://sdk-mern.netlify.app
+20240927	21:40:44	d601a6c1-f1ff-4b8b-8845-60030f2dd880	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
+20240927	21:40:47	2b3774ff-1df8-40bb-99d3-dbc3a36d4cea	Error):Not allowed by CORS	OPTIONS	/notes	https://sdk-mern.netlify.app
+20240927	21:40:47	42b5732e-aca2-4cb5-a2f7-0eb6b76453b1	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
+20240927	21:40:48	ad3c5d31-0fb5-4219-a165-afc3b71d18a9	Error):Not allowed by CORS	OPTIONS	/notes	https://sdk-mern.netlify.app
+20240927	21:40:48	b99e22e9-f522-45bd-aa95-7d3ad366d6f8	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
+20240927	21:40:49	494f607a-de48-427f-abdc-96584fbeca04	Error):Not allowed by CORS	OPTIONS	/notes	https://sdk-mern.netlify.app
+20240927	21:40:49	1211fea3-5989-47a1-911e-30dc12fd60d8	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
+20240927	21:40:49	0379edd9-c356-419e-ab63-edf086e53bba	Error):Not allowed by CORS	OPTIONS	/notes	https://sdk-mern.netlify.app
+20240927	21:40:49	1fed98ab-efcd-439c-b568-90a3cc79209f	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
+20240927	21:40:50	b27d2dce-aea8-416f-ae9c-205b803cd021	Error):Not allowed by CORS	OPTIONS	/notes	https://sdk-mern.netlify.app
+20240927	21:40:50	e02cea79-d990-4ef7-86a2-d43b2e8a72a1	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
+20240927	21:40:50	01bc639e-5665-4ff8-afcc-1cc0c59e0477	Error):Not allowed by CORS	OPTIONS	/notes	https://sdk-mern.netlify.app
+20240927	21:40:50	6b02d7a6-a269-41de-b2f2-4e80d4367d29	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
+20240927	21:40:51	a450a6a3-f757-4193-a5d3-d0e61a59bf4a	Error):Not allowed by CORS	OPTIONS	/notes	https://sdk-mern.netlify.app
+20240927	21:40:51	2a3799de-60b1-4a98-b8fa-511706e8120c	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
+20240927	21:40:51	a68204f7-d5a5-41be-ba7d-f5c516bdfe03	Error):Not allowed by CORS	OPTIONS	/notes	https://sdk-mern.netlify.app
+20240927	21:40:51	e746d14c-3472-4a49-ba77-ab9acb3d9614	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
+20240927	21:40:51	bd8c77bf-97be-403d-acf9-ad812fa818f7	Error):Not allowed by CORS	OPTIONS	/notes	https://sdk-mern.netlify.app
+20240927	21:40:51	37244031-7858-4538-b391-1a53a6023627	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
+20240927	21:43:33	a6c60674-f331-4162-96bf-3b13377edd2f	Error):Not allowed by CORS	OPTIONS	/notes	https://sdk-mern.netlify.app
+20240927	21:43:33	95a3866a-34b3-4585-b8b1-c0a51ef1bd7b	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
+20240927	21:43:35	12d1ac7e-e3ff-4834-96fe-0a1c27e4ab7c	Error):Not allowed by CORS	OPTIONS	/notes	https://sdk-mern.netlify.app
+20240927	21:43:35	67ec683c-5cdc-4f46-960d-dd41259f5dea	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
