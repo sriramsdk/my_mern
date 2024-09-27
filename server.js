@@ -1,6 +1,5 @@
 require('dotenv').config(); // Load environment variables
 const express = require('express');
-const app = express();
 const path = require('path');
 const { logger } = require('./middleware/logger');
 const errorHandler = require('./middleware/errorHandler');
@@ -9,13 +8,24 @@ const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 const connectDB = require('./config/dbConn');
 const mongoose = require('mongoose');
-const { logEvents } = require('./middleware/logger');
+
+const app = express();
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+
+// Connect to MongoDB
+connectDB();
+
+mongoose.connection.once('open', () => {
+    console.log('Connected to MongoDB');
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+        console.log(`Mango DB Server running on port ${PORT}`);
+    });
 });
 
-connectDB();
+mongoose.connection.on('error', (err) => {
+    console.error('MongoDB connection error:', err);
+});
 
 app.use(logger);
 app.use(cors(corsOptions));
@@ -38,14 +48,3 @@ app.all('*', (req, res) => {
 });
 
 app.use(errorHandler);
-
-mongoose.connection.once('open', () => {
-    console.log('Connected to MongoDB');
-    app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
-    });
-});
-
-mongoose.connection.on('error', (err) => {
-    console.error('MongoDB connection error:', err); // Use console.error
-});
