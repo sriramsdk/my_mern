@@ -2,6 +2,8 @@ const User = require('../models/User')
 const Note = require('../models/Note')
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const secretkey = process.env.SECRETKEY
 
 //@desc GET All users
 //@route GET /users
@@ -20,7 +22,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
 //@route POST /users
 //@access Private
 const createNewUser = asyncHandler(async (req, res) => {
-    const { username, password, roles } = req.body
+    const { username, password, roles, type } = req.body
 
     if(!username || !password || !Array.isArray(roles) || !roles.length){
         return res.status(400).json({ message: "All Fields are required" })
@@ -40,7 +42,18 @@ const createNewUser = asyncHandler(async (req, res) => {
     const user = await User.create(userObject)
 
     if(user){
-        res.status(201).json({ message: `New User ${username} created` })
+        if(!type){
+            res.status(201).json({ message: `New User ${username} created` })
+        }else{
+            const payload = { user:{ id: user.id } }
+        
+            jwt.sign(payload, secretkey, { expiresIn: 3600 }, 
+            (err, token) => {
+                if (err) throw err;
+                res.json({ token });
+            });
+        }
+        
     }else{
         res.status(400).json({ message: "Invalid user data received" })
     }

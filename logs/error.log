@@ -50,3 +50,12 @@
 20240927	21:43:33	95a3866a-34b3-4585-b8b1-c0a51ef1bd7b	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
 20240927	21:43:35	12d1ac7e-e3ff-4834-96fe-0a1c27e4ab7c	Error):Not allowed by CORS	OPTIONS	/notes	https://sdk-mern.netlify.app
 20240927	21:43:35	67ec683c-5cdc-4f46-960d-dd41259f5dea	Error):Not allowed by CORS	GET	/notes	https://sdk-mern.netlify.app
+20241007	23:29:09	9a052396-ef91-4277-9e03-ec35ce833da2	Error):data and hash arguments required	POST	/login	undefined
+20241007	23:30:26	b3698515-ce6a-4109-8af7-7dc370061082	ReferenceError):hash is not defined	POST	/login	undefined
+20241007	23:31:31	26a709e8-b7b3-42ac-91aa-def2f58df829	Error):data and hash arguments required	POST	/login	undefined
+20241007	23:33:22	5e93a215-35ab-4c70-a058-11510c83e8b3	ReferenceError):payload is not defined	POST	/login	undefined
+20241007	23:33:26	df13431a-52c8-4b72-877a-df2308cd1ad7	ReferenceError):payload is not defined	POST	/login	undefined
+20241007	23:35:00	e7d00157-4c9c-4a7e-a1e0-ac2476aa472f	ReferenceError):config is not defined	POST	/login	undefined
+20241007	23:35:12	4a2bef9e-178b-4cde-ac71-f63697db04a5	ReferenceError):jwtSecret is not defined	POST	/login	undefined
+20241008	21:16:49	c3d4be28-acb3-4621-b3bd-de454190d70f	ReferenceError):payload is not defined	POST	/users	undefined
+20241008	21:17:23	9f3bf432-c151-4e65-8530-2c0d731601ac	ReferenceError):payload is not defined	POST	/users	undefined
