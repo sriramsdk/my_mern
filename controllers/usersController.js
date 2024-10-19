@@ -9,13 +9,19 @@ const secretkey = process.env.SECRETKEY
 //@route GET /users
 //@access Private
 const getAllUsers = asyncHandler(async (req, res) => {
-    const users = await User.find().select('-password').lean()
+    try{
+        const users = await User.find().select('-password').lean()
 
-    if(!users?.length){
-        return res.status(400).json({ message: 'No Users Found' })
+        if(!users?.length){
+            return res.status(400).json({ message: 'No Users Found' })
+        }
+        res.json(users)
+    } catch (err) {
+        if (err instanceof AggregateError) {
+            console.log("Cause of the error:", err.cause);
+        }
     }
-
-    res.json(users)
+    
 })
 
 //@desc Create new user
@@ -121,7 +127,7 @@ const deleteUser = asyncHandler(async (req, res) => {
     await user.deleteOne();
 
     // Create a reply using the stored information
-    const reply = `Username ${username} with ID ${_id} deleted`;
+    const reply = `Username ${username} deleted`;
 
     res.status(200).json({ message: reply });
 })
