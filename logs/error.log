@@ -59,3 +59,12 @@
 20241007	23:35:12	4a2bef9e-178b-4cde-ac71-f63697db04a5	ReferenceError):jwtSecret is not defined	POST	/login	undefined
 20241008	21:16:49	c3d4be28-acb3-4621-b3bd-de454190d70f	ReferenceError):payload is not defined	POST	/users	undefined
 20241008	21:17:23	9f3bf432-c151-4e65-8530-2c0d731601ac	ReferenceError):payload is not defined	POST	/users	undefined
+20241120	21:14:09	795e09bb-fb1f-44cc-bdf2-06f90f325b3a	ReferenceError):re is not defined	POST	/users/getUser	undefined
+20241120	21:14:34	582d7456-102f-4c58-af51-249bf3ca3f68	TypeError):Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property 'parser' -> object with constructor 'HTTPParser'
+    --- property 'socket' closes the circle	POST	/users/getUser	undefined
+20241120	21:15:50	3ef7aa5c-ef1d-46d5-8ebc-d4f75639490f	TypeError):Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property 'parser' -> object with constructor 'HTTPParser'
+    --- property 'socket' closes the circle	POST	/users/getUser	undefined

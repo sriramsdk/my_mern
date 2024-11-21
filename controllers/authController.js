@@ -18,8 +18,8 @@ const login = asyncHandler(async( req, res ) => {
             return res.status(400).json({ message: "Invalid Credentials" })
         }
 
-        const payload = { user:{ id: user.id } }
-        const user_details = { user:{ username: user.username, role: user.roles } }
+        const payload = { user:{ id: user._id } }
+        const user_details = { user:{ id: user._id, username: user.username, role: user.roles } }
         jwt.sign(payload, secretkey, { expiresIn: 3600 }, 
         (err, token) => {
             if (err) throw err;

@@ -11,6 +11,7 @@ const mongoose = require('mongoose');
 
 const app = express();
 const PORT = process.env.PORT || 8000;
+const userRoutes = require('./routes/userRoutes');
 
 // Connect to MongoDB
 connectDB();
@@ -33,7 +34,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.use('/', require('./routes/root'));
-app.use('/users', require('./routes/userRoutes'));
+app.use('/users', userRoutes);
 app.use('/notes', require('./routes/noteRoutes'));
 app.use('/login', require('./routes/authRoutes'));
 

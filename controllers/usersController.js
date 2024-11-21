@@ -132,6 +132,26 @@ const deleteUser = asyncHandler(async (req, res) => {
     res.status(200).json({ message: reply });
 })
 
+const getUser = asyncHandler(async (req, res) => {
+    try{
+        const { id } = req.body;
+        if(!id){
+            return res.status(400).json({ message:"UserId is required" })
+        }
+
+        const user = await User.findById(id).lean().exec();
+        if(!user){
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        return res.status(200).json({data : user});
+
+    }catch(err){
+        return res.status(500).json({message: err});
+    }
+    // return res.status(200).json(req)
+});
+
 module.exports = {
-    getAllUsers,createNewUser,updateUser,deleteUser
+    getAllUsers,createNewUser,updateUser,deleteUser,getUser
 }
