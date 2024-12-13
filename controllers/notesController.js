@@ -5,20 +5,33 @@ const asyncHandler = require('express-async-handler')
 //@desc GET All Notes
 //@route GET /notes
 //@access Private
-const getAllNotes = asyncHandler(async (req, res) => {
-    const notes = await Note.find().lean()
+const getuserNotes = asyncHandler(async (req, res) => {
+    const id = req.user; 
 
-    if(!notes?.length){
-        return res.status(400).json({ message: 'No Notes available' })
+    if (!id) {
+        return res.status(400).json({ message: "User ID is required" });
     }
 
-    const notesWithUser = await Promise.all(notes.map(async (note) => {
-        const user = await User.find(note.user).lean().exec()
-        return { ...note, username:user.username }
-    }))
+    try {
+        const notes = await Note.find({ user: id }).lean();
+        if (!notes?.length) {
+            return res.status(400).json({ message: "No notes available" });
+        }
 
-    res.json(notesWithUser)
-})
+        const notesWithUser = await Promise.all(
+            notes.map(async (note) => {
+                const user = await User.findById(note.user).lean().exec();
+                return { ...note, username: user?.username || "Unknown" };
+            })
+        );
+
+        res.json(notesWithUser);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ status: "500", message: "Internal Server Error" });
+    }
+});
+
 
 //@desc Create new Notes
 //@route POST /notes
@@ -97,5 +110,5 @@ const deleteNote = asyncHandler(async (req, res) => {
 })
 
 module.exports = {
-    getAllNotes,createNewNote,updateNote,deleteNote
+    getuserNotes,createNewNote,updateNote,deleteNote
 }
