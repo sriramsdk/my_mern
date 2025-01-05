@@ -9,23 +9,48 @@ const getuserNotes = asyncHandler(async (req, res) => {
     const id = req.user; 
 
     if (!id) {
-        return res.status(400).json({ message: "User ID is required" });
+        return res.status(400).json({ status: "400", message: "User ID is required" });
     }
 
     try {
-        const notes = await Note.find({ user: id }).lean();
-        if (!notes?.length) {
-            return res.status(400).json({ message: "No notes available" });
+        const checkUser = await User.findById(id).exec();
+
+        if(checkUser.length == 0){
+            res.status(400).json({ status: "400", message: "User data not exxits" })
         }
 
-        const notesWithUser = await Promise.all(
-            notes.map(async (note) => {
-                const user = await User.findById(note.user).lean().exec();
-                return { ...note, username: user?.username || "Unknown" };
-            })
-        );
+        const [userRole] = checkUser.roles;
 
-        res.json(notesWithUser);
+        if(userRole !== 'Admin'){
+
+            const notes = await Note.find({ user: id }).lean();
+            if (!notes?.length) {
+                return res.status(400).json({ status: "400", message: "No requests available" });
+            }
+
+            const notesWithUser = await Promise.all(
+                notes.map(async (note) => {
+                    const user = await User.findById(note.user).lean().exec();
+                    return { ...note, username: user?.username || "Unknown" };
+                })
+            );
+
+            res.json({status : "200", message: "requests fetched successfully", data: notesWithUser});
+        }else{
+            const notes = await Note.find().lean();
+
+            if(notes.length == 0){
+                res.status(400).json({status: "400", message: "No requests available"});
+            }
+
+            const notesWithUser = await Promise.all(
+                notes.map(async (note) => {
+                    const user = await User.findById(note.user).lean().exec();
+                    return { ...note, username: user?.username || "Unknown" };
+                })
+            );
+            res.json({status : "200", message: "requests fetched successfully", data: notesWithUser});
+        }
     } catch (err) {
         console.error(err);
         res.status(500).json({ status: "500", message: "Internal Server Error" });
@@ -63,29 +88,36 @@ const updateNote = asyncHandler(async (req, res) => {
     const { id, user, title, text, completed } = req.body
     // Confirm data
     if(!id || !user || !title || !text || typeof completed != "boolean"){
-        return res.status(400).json({ message:"All fields are required" })
+        return res.status(400).json({ status: "400", message:"All fields are required" })
     }
 
     // Confirm note exists to update
     const note = await Note.findById(id).exec()
     if(!note){
-        return res.status(400).json({ message:"Note not found" })
+        return res.status(400).json({ status: "400", message:"Note not found" })
     }
 
     // Check for duplicate
     const duplicate = await Note.findOne({title}).lean().exec()
     // Allow renaming the original note
     if(duplicate && duplicate?._id.toString() != id){
-        return res.status(400).json({ message:"Duplicate note title" })
+        return res.status(400).json({ status: "400", message:"Duplicate note title" })
     }
 
-    note.user = user
+    const Usercheck = await User.findById(user).lean().exec();
+    // console.log(Usercheck);
+
+    const [userRole] = Usercheck.roles;
+
+    if(userRole !== 'Admin'){
+        note.user = user
+    }
     note.title = title
     note.text = text
     note.completed = completed
     const updatedNote = await note.save()
 
-    res.status(200).json({ message:`'${updatedNote.title}' updated` })
+    res.status(200).json({ status: "200", message:`'${updatedNote.title}' updated` })
 
 })
 
