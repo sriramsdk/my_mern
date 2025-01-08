@@ -62,22 +62,27 @@ const getuserNotes = asyncHandler(async (req, res) => {
 //@route POST /notes
 //@access Private
 const createNewNote = asyncHandler(async (req, res) => {
-    const { user, title, text } = req.body
-    if(!user || !title || !text){
-        return res.status(400).json({ message:"All fields are required" })
-    }
+    try{
+        const { user, title, text } = req.body
+        if(!user || !title || !text){
+            return res.status(400).json({ message:"All fields are required" })
+        }
 
-    // Check for duplicate title
-    const duplicate = await Note.findOne({title}).lean().exec()
-    if(duplicate){
-        return res.status(400).json({ message:"Duplicate note title" })
-    }
+        // Check for duplicate title
+        const duplicate = await Note.findOne({title}).lean().exec()
+        if(duplicate){
+            return res.status(400).json({ message:"Duplicate note title" })
+        }
 
-    const note = await Note.create({ user,title,text })
-    if(note){
-        return res.status(201).json({ message:"New note created" })
-    }else{
-        return res.status(400).json({ message:"Invalid Note data received" })
+        const note = await Note.create({ user,title,text })
+        if(note){
+            return res.status(201).json({ message:"New note created" })
+        }else{
+            return res.status(400).json({ message:"Invalid Note data received" })
+        }
+    }catch(error){
+        console.log("Notes error ",error)
+        res.status(500).json({ status: "500", message: "Something went wrong" })
     }
 })
 
@@ -85,39 +90,44 @@ const createNewNote = asyncHandler(async (req, res) => {
 //@route PATCH /notes
 //@access Private
 const updateNote = asyncHandler(async (req, res) => {
-    const { id, user, title, text, completed } = req.body
-    // Confirm data
-    if(!id || !user || !title || !text || typeof completed != "boolean"){
-        return res.status(400).json({ status: "400", message:"All fields are required" })
+    try{
+        const { id, user, title, text, completed } = req.body
+        // Confirm data
+        if(!id || !user || !title || !text || typeof completed != "boolean"){
+            return res.status(400).json({ status: "400", message:"All fields are required" })
+        }
+
+        // Confirm note exists to update
+        const note = await Note.findById(id).exec()
+        if(!note){
+            return res.status(400).json({ status: "400", message:"Note not found" })
+        }
+
+        // Check for duplicate
+        const duplicate = await Note.findOne({title}).lean().exec()
+        // Allow renaming the original note
+        if(duplicate && duplicate?._id.toString() != id){
+            return res.status(400).json({ status: "400", message:"Duplicate note title" })
+        }
+
+        const Usercheck = await User.findById(user).lean().exec();
+        // console.log(Usercheck);
+
+        const [userRole] = Usercheck.roles;
+
+        if(userRole !== 'Admin'){
+            note.user = user
+        }
+        note.title = title
+        note.text = text
+        note.completed = completed
+        const updatedNote = await note.save()
+
+        res.status(200).json({ status: "200", message:`'${updatedNote.title}' updated` })
+    }catch(error){
+        console.log('Notes error',error)
+        res.status(500).json({ status: "500", message: "Something went wrong" })
     }
-
-    // Confirm note exists to update
-    const note = await Note.findById(id).exec()
-    if(!note){
-        return res.status(400).json({ status: "400", message:"Note not found" })
-    }
-
-    // Check for duplicate
-    const duplicate = await Note.findOne({title}).lean().exec()
-    // Allow renaming the original note
-    if(duplicate && duplicate?._id.toString() != id){
-        return res.status(400).json({ status: "400", message:"Duplicate note title" })
-    }
-
-    const Usercheck = await User.findById(user).lean().exec();
-    // console.log(Usercheck);
-
-    const [userRole] = Usercheck.roles;
-
-    if(userRole !== 'Admin'){
-        note.user = user
-    }
-    note.title = title
-    note.text = text
-    note.completed = completed
-    const updatedNote = await note.save()
-
-    res.status(200).json({ status: "200", message:`'${updatedNote.title}' updated` })
 
 })
 
@@ -125,20 +135,25 @@ const updateNote = asyncHandler(async (req, res) => {
 //@route Delete /notes
 //@access Private
 const deleteNote = asyncHandler(async (req, res) => {
-    const { id } = req.body
-    if(!id){
-        return res.status(400).json({ message: "Note Id required" })
-    }
+    try{
+        const { id } = req.body
+        if(!id){
+            return res.status(400).json({ message: "Note Id required" })
+        }
 
-    // confirm note exists
-    const note = await Note.findById(id).exec()
-    if(!note){
-        return res.status(400).json({ message:"Note not found" })
-    }
+        // confirm note exists
+        const note = await Note.findById(id).exec()
+        if(!note){
+            return res.status(400).json({ message:"Note not found" })
+        }
 
-    const result = await Note.deleteOne()
-    const reply = `Note '${result.title}' with ID '${result._id}' deleted `
-    res.json({ message:reply })
+        const result = await Note.deleteOne()
+        const reply = `Note '${result.title}' with ID '${result._id}' deleted `
+        res.json({ message:reply })
+    }catch(error){
+        console.log('Notes error', error)
+        res.status(500).json({ status: "500", message: "Something went wrong" })
+    }
 })
 
 module.exports = {

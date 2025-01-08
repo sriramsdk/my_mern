@@ -28,40 +28,45 @@ const getAllUsers = asyncHandler(async (req, res) => {
 //@route POST /users
 //@access Private
 const createNewUser = asyncHandler(async (req, res) => {
-    const { username, password, roles, type } = req.body
+    try{
+        const { username, password, roles, type } = req.body
 
-    if(!username || !password || !Array.isArray(roles) || !roles.length){
-        return res.status(400).json({ message: "All Fields are required" })
-    }
+        if(!username || !password || !Array.isArray(roles) || !roles.length){
+            return res.status(400).json({ status: "400", message: "All Fields are required" })
+        }
 
-    const duplicate = await User.findOne({username}).lean().exec()
+        const duplicate = await User.findOne({username}).lean().exec()
 
-    if(duplicate){
-        return res.status(409).json({ message: "Username Already exists" })
-    }
-    
-    // Hash password
-    const hashedPwd = await bcrypt.hash(password,10) // salt rounds
-
-    const userObject = { username, "password":hashedPwd, roles }
-
-    const user = await User.create(userObject)
-
-    if(user){
-        if(!type){
-            res.status(201).json({ message: `New User ${username} created` })
-        }else{
-            const payload = { user:{ id: user.id } }
-        
-            jwt.sign(payload, secretkey, { expiresIn: 3600 }, 
-            (err, token) => {
-                if (err) throw err;
-                res.json({ token });
-            });
+        if(duplicate){
+            return res.status(400).json({ status: "400", message: "Username Already exists" })
         }
         
-    }else{
-        res.status(400).json({ message: "Invalid user data received" })
+        // Hash password
+        const hashedPwd = await bcrypt.hash(password,10) // salt rounds
+
+        const userObject = { username, "password":hashedPwd, roles }
+
+        const user = await User.create(userObject)
+
+        if(user){
+            if(!type){
+                res.status(200).json({ status: "200", message: `New User ${username} created` })
+            }else{
+                const payload = { user:{ id: user.id } }
+                const user_details = { user:{ id: user._id, username: user.username, role: user.roles } }
+                jwt.sign(payload, secretkey, { expiresIn: 3600 }, 
+                (err, token) => {
+                    if (err) throw err;
+                    resstatus(200).json({ status: "200", message: "Registered Successfully", token, user_details });
+                });
+            }
+            
+        }else{
+            res.status(400).json({ message: "Invalid user data received" })
+        }
+    }catch(error){
+        console.log('User error',error)
+        res.status(500).json({ status: "500", message: "Something went wrong" })
     }
 
 })
@@ -70,84 +75,94 @@ const createNewUser = asyncHandler(async (req, res) => {
 //@route PATCH /users
 //@access Private
 const updateUser = asyncHandler(async (req, res) => {
-    const { id, username, roles, active, password } = req.body
+    try{
+        const { id, username, roles, active, password } = req.body
 
-    if(!id || !username || !Array.isArray(roles) || !roles?.length || typeof active !== 'boolean'){
-        return res.status(400).json({ message: "All fields are required" })
+        if(!id || !username || !Array.isArray(roles) || !roles?.length || typeof active !== 'boolean'){
+            return res.status(400).json({ status: "400", message: "All fields are required" })
+        }
+
+        const user = await User.findById(id).exec()
+        
+        if(!user){
+            return res.status(400).json({ status: "400", message: "User not found" })
+        }
+
+        const duplicate = await User.findOne({ username }).lean().exec()
+
+        if(duplicate && duplicate?._id.toString() !== id){
+            return res.status(400).json({ status: "400", message: "Duplicate Username" })
+        }
+
+        user.username = username
+        user.roles = roles
+        user.active = active
+        if(password){
+            user.password = await bcrypt.hash(password,10) // salt rounds
+        }
+
+        const updateUser = await user.save()
+
+        res.status(200).json({ status:"200", message: `${updateUser.username} updated` })
+    }catch(error){
+        console.log('User error',error)
+        res.status(500).json({ status: "500", message: "Something went wrong" })
     }
-
-    const user = await User.findById(id).exec()
-    
-    if(!user){
-        return res.status(400).json({ message: "User not found" })
-    }
-
-    const duplicate = await User.findOne({ username }).lean().exec()
-
-    if(duplicate && duplicate?._id.toString() !== id){
-        return res.status(400).json({ message: "Duplicate Username" })
-    }
-
-    user.username = username
-    user.roles = roles
-    user.active = active
-    if(password){
-        user.password = await bcrypt.hash(password,10) // salt rounds
-    }
-
-    const updateUser = await user.save()
-
-    res.json({ message: `${updateUser.username} updated` })
-    
 })
 
 //@desc Delete a user
 //@route DELETE /users
 //@access Private
 const deleteUser = asyncHandler(async (req, res) => {
-    const { id } = req.body
-    if(!id){
-        return res.status(400).json({ message:"UserId is required" })
+    try{
+        const { id } = req.body
+        if(!id){
+            return res.status(400).json({ status: "400", message:"UserId is required" })
+        }
+
+        const note = await Note.findOne({ user: id }).lean().exec()
+        if(note){
+            return res.status(400).json({ status: "400", message:"User has assigned notes" })
+        }
+
+        const user = await User.findById(id).exec()
+        if(!user){
+            return res.status(400).json({ status: "400", message:"User not found" })
+        }
+
+        // Store user information before deletion
+        const { username, _id } = user;
+
+        // Delete the user
+        await user.deleteOne();
+
+        // Create a reply using the stored information
+        const reply = `Username ${username} deleted`;
+
+        res.status(200).json({ status: "200", message: reply });
+    }catch(error){
+        console.log('User error',error)
+        res.status(500).json({ status: "500", message: "Something went wrong" })
     }
-
-    const note = await Note.findOne({ user: id }).lean().exec()
-    if(note){
-        return res.status(400).json({ message:"User has assigned notes" })
-    }
-
-    const user = await User.findById(id).exec()
-    if(!user){
-        return res.status(400).json({ message:"User not found" })
-    }
-
-    // Store user information before deletion
-    const { username, _id } = user;
-
-    // Delete the user
-    await user.deleteOne();
-
-    // Create a reply using the stored information
-    const reply = `Username ${username} deleted`;
-
-    res.status(200).json({ message: reply });
 })
 
 const getUser = asyncHandler(async (req, res) => {
     try{
         const { id } = req.body;
         if(!id){
-            return res.status(400).json({ message:"UserId is required" })
+            return res.status(400).json({ status: "400", message:"UserId is required" })
         }
 
         const user = await User.findById(id).lean().exec();
         if(!user){
-            return res.status(400).json({ message: "User not found" });
+            return res.status(400).json({ status: "400", message: "User not found" });
         }
 
-        return res.status(200).json({data : user});
+        return res.status(200).json({status: "200", data : user});
 
     }catch(err){
-        return res.status(500).json({message: err});
+        console.log('User error',err)
+        return res.status(500).json({status: "500", message: "Something went wrong"});
     }
     // return res.status(200).json(req)
 });
