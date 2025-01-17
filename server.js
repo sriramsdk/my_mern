@@ -37,6 +37,7 @@ app.use('/', require('./routes/root'));
 app.use('/users', userRoutes);
 app.use('/notes', require('./routes/noteRoutes'));
 app.use('/login', require('./routes/authRoutes'));
+app.use('/validate-token',require('./routes/validateTokenRoutes'));
 
 app.all('*', (req, res) => {
     res.status(404);
